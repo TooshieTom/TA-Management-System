@@ -65,7 +65,7 @@ const FacultyPostJob = () => {
             createdDate: new Date()
         };
         try {
-            await axios.post('http://localhost:8081/api/jobpostings', jobData, {
+            await axios.post('http://localhost:8080/api/jobpostings', jobData, {
                 headers: { "Content-Type": "application/json" }
             });
             alert('Job posted successfully!');

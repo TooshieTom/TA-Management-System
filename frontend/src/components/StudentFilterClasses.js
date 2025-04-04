@@ -12,7 +12,7 @@ const StudentFilterClasses = () => {
 
     const fetchJobPostings = async () => {
         try {
-            let url = 'http://localhost:8081/api/jobpostings?';
+            let url = 'http://localhost:8080/api/jobpostings/filter?';
             if (courseNumber) {
                 url += `courseNumber=${courseNumber}&`;
             }
