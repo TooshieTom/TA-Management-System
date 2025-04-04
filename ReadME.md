@@ -85,19 +85,7 @@ This document provides an overview of the current state of Team 5's TA Module pr
     - Configures CORS to allow requests from the local frontend running at `http://localhost:3000`.
     - Permits typical HTTP methods (GET, POST, PUT, DELETE) and allows credentials.
 
-### Known Backend Issues
-
-There is a current error when:
-- submutting a course, a job posting, and a filtering the job postings.
-
-Potential reasons for these issues include:
-- **Overlapping Endpoint Mappings:** Conflicts in API endpoint paths may be causing routing issues.
-- **Cascade on the Many-to-One Relationship:** Improper cascading settings might lead to persistence errors.
-- **Incomplete Required Course Data:** Missing or incomplete data for courses could be causing failures.
-- **Filtering Logic Ambiguity:** The filtering logic might not properly handle certain edge cases.
-
-*Team 5 will work to debug these issues before Sprint 2.*
-
+### Screenshots of Sprint 1 Output Found in Repo
 ---
 
 ## Frontend Details (React with Axios)
@@ -135,6 +123,6 @@ Potential reasons for these issues include:
 
 ## Conclusion
 
-The SMU TA Module is designed to provide a smooth workflow for faculty and students by integrating course and job posting functionalities with a clear separation between backend services and frontend components. While the core structure and relationships are in place, there are known backend errors that are preventing the system from operating as intended. Team 5 will address these issues in Sprint 2, focusing on endpoint mapping, cascade settings, course data completeness, and filtering logic.
+The SMU TA Module is designed to provide a smooth workflow for faculty and students by integrating course and job posting functionalities with a clear separation between backend services and frontend components.
 
 This ReadME outlines the progress made so far, along with the areas that require further debugging and refinement.
