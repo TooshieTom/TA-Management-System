@@ -1,4 +1,4 @@
-package com.example.universityta.config;
+package com.example.ta_ms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
