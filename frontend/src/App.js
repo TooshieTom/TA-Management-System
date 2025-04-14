@@ -1,6 +1,6 @@
 // frontend/src/App.js
 import React from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate} from 'react-router-dom';
 import FacultyPostJob from './components/FacultyPostJob';
 import StudentFilterClasses from './components/StudentFilterClasses';
 import ApplyForm from './components/ApplyForm';

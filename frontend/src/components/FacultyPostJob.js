@@ -1,6 +1,8 @@
 // FacultyPostJob.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
+import FacultyHeader from './FacultyHeader';
 
 const FacultyPostJob = () => {
     // State for course submission
@@ -96,6 +98,8 @@ const FacultyPostJob = () => {
 
     return (
         <div>
+            <FacultyHeader />
+
             <h1>SMU TA Module</h1>
 
             {/* Add Course Section */}

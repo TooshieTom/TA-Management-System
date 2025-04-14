@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import StudentHeader from './StudentHeader';
@@ -14,7 +14,7 @@ const StudentFilterClasses = () => {
 
     const studentId = localStorage.getItem('userId');
 
-    const fetchJobPostings = async () => {
+    const fetchJobPostings = useCallback(async () => {
         try {
             let url = 'http://localhost:8080/api/jobpostings/filter?';
             if (courseNumber) url += `courseNumber=${courseNumber}&`;
@@ -26,7 +26,6 @@ const StudentFilterClasses = () => {
             const response = await axios.get(url);
             const postings = response.data;
 
-            // Check which jobs the student has applied to
             const updatedPostings = await Promise.all(postings.map(async posting => {
                 const res = await axios.get('http://localhost:8080/api/applications/exists', {
                     params: {
@@ -42,14 +41,18 @@ const StudentFilterClasses = () => {
             console.error(error);
             alert('Error fetching job postings.');
         }
-    };
+    }, [courseNumber, courseName, skill, instructorName, standing, studentId]);
 
     useEffect(() => {
         fetchJobPostings();
-    }, []);
+    }, [fetchJobPostings]);
 
-    const handleFilter = () => {
-        fetchJobPostings();
+    const handleFilter = async () => {
+        try {
+            await fetchJobPostings();
+        } catch (error) {
+            console.error("Error filtering job postings:", error);
+        }
     };
 
     return (
@@ -89,7 +92,7 @@ const StudentFilterClasses = () => {
                 />
             </div>
             <div>
-                <label>Standing (Freshman, Sophmore, Junior, Senior, Graduate):</label>
+                <label>Standing (Freshman, Sophomore, Junior, Senior, Graduate):</label>
                 <input
                     type="text"
                     value={standing}
