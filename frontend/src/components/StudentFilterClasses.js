@@ -1,35 +1,43 @@
-// frontend/src/components/StudentFilterClasses.js
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import StudentHeader from './StudentHeader';
 
 const StudentFilterClasses = () => {
+    const navigate = useNavigate();
     const [courseNumber, setCourseNumber] = useState('');
     const [courseName, setCourseName] = useState('');
-    const [skill, setSkill] = useState('');               // new filter input for skill
-    const [instructorName, setInstructorName] = useState(''); // new filter input for instructor name
-    const [standing, setStanding] = useState('');           // new filter input for standing
+    const [skill, setSkill] = useState('');
+    const [instructorName, setInstructorName] = useState('');
+    const [standing, setStanding] = useState('');
     const [jobPostings, setJobPostings] = useState([]);
+
+    const studentId = localStorage.getItem('userId');
 
     const fetchJobPostings = async () => {
         try {
             let url = 'http://localhost:8080/api/jobpostings/filter?';
-            if (courseNumber) {
-                url += `courseNumber=${courseNumber}&`;
-            }
-            if (courseName) {
-                url += `courseName=${courseName}&`;
-            }
-            if (skill) {
-                url += `skill=${skill}&`;
-            }
-            if (instructorName) {
-                url += `instructorName=${instructorName}&`;
-            }
-            if (standing) {
-                url += `standing=${standing}&`;
-            }
+            if (courseNumber) url += `courseNumber=${courseNumber}&`;
+            if (courseName) url += `courseName=${courseName}&`;
+            if (skill) url += `skill=${skill}&`;
+            if (instructorName) url += `instructorName=${instructorName}&`;
+            if (standing) url += `standing=${standing}&`;
+
             const response = await axios.get(url);
-            setJobPostings(response.data);
+            const postings = response.data;
+
+            // Check which jobs the student has applied to
+            const updatedPostings = await Promise.all(postings.map(async posting => {
+                const res = await axios.get('http://localhost:8080/api/applications/exists', {
+                    params: {
+                        studentId,
+                        jobPostingId: posting.jobid
+                    }
+                });
+                return { ...posting, alreadyApplied: res.data };
+            }));
+
+            setJobPostings(updatedPostings);
         } catch (error) {
             console.error(error);
             alert('Error fetching job postings.');
@@ -46,6 +54,7 @@ const StudentFilterClasses = () => {
 
     return (
         <div>
+            <StudentHeader />
             <h2>Filter TA Job Postings</h2>
             <div>
                 <label>Course Number:</label>
@@ -94,9 +103,13 @@ const StudentFilterClasses = () => {
                 <ul>
                     {jobPostings.map(posting => (
                         <li key={posting.jobid}>
-                            {posting.course.courseNumber} - {posting.course.courseName} : {posting.jobDetails}
-                            <br />
-                            Faculty: {posting.facultyName} (Email: {posting.facultyEmail})
+                            <strong>{posting.course.courseNumber}</strong> - {posting.course.courseName}: {posting.jobDetails}<br />
+                            Faculty: {posting.facultyName} (Email: {posting.facultyEmail})<br />
+                            {posting.alreadyApplied ? (
+                                <span style={{ color: 'gray' }}>Already Applied</span>
+                            ) : (
+                                <button onClick={() => navigate(`/apply/${posting.jobid}`)}>Apply</button>
+                            )}
                         </li>
                     ))}
                 </ul>

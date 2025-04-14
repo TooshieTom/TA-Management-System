@@ -21,46 +21,46 @@ public class JobPostingService {
         return jobPostingRepository.findAll();
     }
 
-    // Filters by skill, instructor name (facultyName), and standing (grade level)
-    public List<JobPosting> filterJobPostings(String skill, String instructorName, String standing) {
+    public List<JobPosting> filterJobPostings(
+            String courseNumber,
+            String courseName,
+            String skill,
+            String instructorName,
+            String standing
+    ) {
         List<JobPosting> postings = jobPostingRepository.findAll();
+
         return postings.stream().filter(posting -> {
             boolean matches = true;
+
+            if (courseNumber != null && !courseNumber.isEmpty()) {
+                if (posting.getCourse() == null || posting.getCourse().getCourseNumber() == null)
+                    return false;
+                matches &= posting.getCourse().getCourseNumber().toLowerCase().contains(courseNumber.toLowerCase());
+            }
+
+            if (courseName != null && !courseName.isEmpty()) {
+                if (posting.getCourse() == null || posting.getCourse().getCourseName() == null)
+                    return false;
+                matches &= posting.getCourse().getCourseName().toLowerCase().contains(courseName.toLowerCase());
+            }
+
             if (skill != null && !skill.isEmpty()) {
                 matches &= posting.getSkills() != null &&
                         posting.getSkills().toLowerCase().contains(skill.toLowerCase());
             }
+
             if (instructorName != null && !instructorName.isEmpty()) {
                 matches &= posting.getFacultyName() != null &&
                         posting.getFacultyName().toLowerCase().contains(instructorName.toLowerCase());
             }
+
             if (standing != null && !standing.isEmpty()) {
                 matches &= posting.getStandings() != null &&
-                        posting.getStandings().stream().anyMatch(s -> s.equalsIgnoreCase(standing));
+                        posting.getStandings().stream()
+                                .anyMatch(s -> s.equalsIgnoreCase(standing));
             }
-            return matches;
-        }).collect(Collectors.toList());
-    }
 
-    // Additional filtering by course attributes (course number and/or course name)
-    public List<JobPosting> filterJobPostingsByCourse(String courseNumber, String courseName) {
-        List<JobPosting> postings = jobPostingRepository.findAll();
-        return postings.stream().filter(posting -> {
-            boolean matches = true;
-            if (courseNumber != null && !courseNumber.isEmpty()) {
-                if (posting.getCourse() == null) {
-                    System.err.println("Error: JobPosting with ID " + posting.getJobid() + " has a null course reference.");
-                    return false;
-                }
-                matches &= posting.getCourse().getCourseNumber().toLowerCase().contains(courseNumber.toLowerCase());
-            }
-            if (courseName != null && !courseName.isEmpty()) {
-                if (posting.getCourse() == null) {
-                    System.err.println("Error: JobPosting with ID " + posting.getJobid() + " has a null course reference.");
-                    return false;
-                }
-                matches &= posting.getCourse().getCourseName().toLowerCase().contains(courseName.toLowerCase());
-            }
             return matches;
         }).collect(Collectors.toList());
     }

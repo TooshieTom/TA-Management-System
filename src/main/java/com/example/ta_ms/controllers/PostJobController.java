@@ -3,12 +3,16 @@ package com.example.ta_ms.controllers;
 import com.example.ta_ms.entities.Course;
 import com.example.ta_ms.entities.JobPosting;
 import com.example.ta_ms.repositories.CourseRepository;
+import com.example.ta_ms.repositories.JobPostingRepository;
 import com.example.ta_ms.services.JobPostingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/jobpostings")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostJobController {
 
     @Autowired
@@ -16,6 +20,9 @@ public class PostJobController {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private JobPostingRepository jobPostingRepository;
 
     @PostMapping
     public JobPosting createJobPosting(@RequestBody JobPosting jobData) {
@@ -58,5 +65,15 @@ public class PostJobController {
 
         // Save and return the job posting.
         return jobPostingService.saveJobPosting(jobData);
+    }
+
+    @GetMapping("/{id}")
+    public JobPosting getJobPostingById(@PathVariable int id) {
+        Optional<JobPosting> posting = jobPostingRepository.findById(id);
+        if (posting.isPresent()) {
+            return posting.get();
+        } else {
+            throw new RuntimeException("Job posting not found with ID: " + id);
+        }
     }
 }

@@ -11,12 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/jobpostings")
+@CrossOrigin(origins = "http://localhost:3000")
 public class FilterClassesController {
 
     @Autowired
     private JobPostingService jobPostingService;
 
-    // Note: We added an additional "/filter" path to differentiate filtering from a plain GET all.
     @GetMapping("/filter")
     public ResponseEntity<?> getFilteredJobPostings(
             @RequestParam(required = false) String courseNumber,
@@ -26,19 +26,12 @@ public class FilterClassesController {
             @RequestParam(required = false) String standing
     ) {
         try {
-            List<JobPosting> postings;
-            // Prioritize filtering by skill/instructor/standing if provided
-            if ((skill != null && !skill.trim().isEmpty()) ||
-                    (instructorName != null && !instructorName.trim().isEmpty()) ||
-                    (standing != null && !standing.trim().isEmpty())) {
-                postings = jobPostingService.filterJobPostings(skill, instructorName, standing);
-            } else if ((courseNumber != null && !courseNumber.trim().isEmpty()) ||
-                    (courseName != null && !courseName.trim().isEmpty())) {
-                postings = jobPostingService.filterJobPostingsByCourse(courseNumber, courseName);
-            } else {
-                postings = jobPostingService.getAllJobPostings();
-            }
+            List<JobPosting> postings = jobPostingService.filterJobPostings(
+                    courseNumber, courseName, skill, instructorName, standing
+            );
+
             return ResponseEntity.ok(postings);
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

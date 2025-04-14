@@ -1,26 +1,26 @@
 // frontend/src/App.js
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import FacultyPostJob from './components/FacultyPostJob';
 import StudentFilterClasses from './components/StudentFilterClasses';
+import ApplyForm from './components/ApplyForm';
+import AuthPage from './components/AuthPage';
+import StudentApplications from './components/StudentApplications';
+import EditApplicationForm from './components/EditApplicationForm';
+
 
 function App() {
-    const [selected, setSelected] = useState('');
-
     return (
-        <div>
-            <h1>SMU TA Module</h1>
-            <div>
-                <button onClick={() => setSelected('faculty')}>
-                    Faculty: Post TA Job
-                </button>
-                <button onClick={() => setSelected('student')}>
-                    Student: Filter Classes
-                </button>
-            </div>
-            <hr />
-            {selected === 'faculty' && <FacultyPostJob />}
-            {selected === 'student' && <StudentFilterClasses />}
-        </div>
+        <Routes>
+            <Route path="/" element={<AuthPage />} />
+            <Route path="/faculty" element={<FacultyPostJob />} />
+            <Route path="/student" element={<StudentFilterClasses />} />
+            <Route path="/apply/:jobid" element={<ApplyForm />} />
+            <Route path="/student/applications" element={<StudentApplications />} />
+            <Route path="/edit-application/:appId" element={<EditApplicationForm />} />
+            {/* Optional: catch all unknown paths */}
+            <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
     );
 }
 
