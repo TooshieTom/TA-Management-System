@@ -11,12 +11,16 @@ const FacultyHeader = () => {
     };
 
     return (
-        <div style={{ marginBottom: '1rem' }}>
-            <button onClick={() => navigate('/faculty')}>Post TA Job</button>
-            {/* Add more faculty-specific buttons here if needed */}
+        <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between' }}>
+            <div>
+                <button onClick={() => navigate('/faculty')}>Post TA Job</button>
+                <button onClick={() => navigate('/faculty/applications')} style={{ marginLeft: '10px' }}>
+                    View Submitted Applications
+                </button>
+            </div>
             <button
                 onClick={handleLogout}
-                style={{ float: 'right', backgroundColor: '#e74c3c', color: 'white' }}
+                style={{ backgroundColor: '#e74c3c', color: 'white' }}
             >
                 Logout
             </button>

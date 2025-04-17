@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
@@ -19,6 +20,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
 import jakarta.persistence.CascadeType;
+import java.util.List;
+
 
 
 @Entity
@@ -31,6 +34,9 @@ public class JobPosting {
 
     private String facultyName;
     private String facultyEmail;
+
+    @OneToMany(mappedBy = "jobPosting")
+    private List<Application> applications;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_number", nullable = false)

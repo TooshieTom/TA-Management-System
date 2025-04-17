@@ -12,6 +12,7 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int applicationId;
 
+    @Column(name = "student_id")
     private int studentId;
 
     private String studentName;

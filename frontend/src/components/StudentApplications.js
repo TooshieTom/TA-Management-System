@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import StudentHeader from './StudentHeader';
 
 const StudentApplications = () => {
     const [applications, setApplications] = useState([]);
@@ -14,9 +15,9 @@ const StudentApplications = () => {
             try {
                 const res = await axios.get(`http://localhost:8080/api/applications/student/${studentId}`);
                 setApplications(res.data);
-                setLoading(false);
             } catch (error) {
                 console.error("Failed to fetch applications:", error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -44,14 +45,11 @@ const StudentApplications = () => {
         }
     };
 
-    if (loading) return <p>Loading your applications...</p>;
+    if (loading) return <p style={{ padding: '2rem' }}>Loading your applications...</p>;
 
     return (
         <div style={{ padding: '2rem' }}>
-            <div style={{ marginBottom: '1rem' }}>
-                <button onClick={() => navigate('/student')}>← Back to Filter Courses</button>
-            </div>
-
+            <StudentHeader />
             <h2>Your Submitted Applications</h2>
 
             {applications.length === 0 ? (

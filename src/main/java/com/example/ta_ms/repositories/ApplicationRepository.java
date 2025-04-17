@@ -12,4 +12,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
     boolean existsByStudentIdAndJobPosting_Jobid(int studentId, int jobid);
 
+    List<Application> findByJobPostingFacultyEmailOrderBySubmissionDateDesc(String facultyEmail);
+
 }
