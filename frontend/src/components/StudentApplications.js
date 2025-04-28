@@ -7,6 +7,7 @@ import StudentHeader from './StudentHeader';
 const StudentApplications = () => {
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [unreadCounts, setUnreadCounts] = useState({});
     const studentId = localStorage.getItem('userId');
     const navigate = useNavigate();
 
@@ -15,6 +16,18 @@ const StudentApplications = () => {
             try {
                 const res = await axios.get(`http://localhost:8080/api/applications/student/${studentId}`);
                 setApplications(res.data);
+
+                const unreadData = {};
+                for(const app of res.data) {
+                    try {
+                        const unreadRes = await axios.get(`http://localhost:8080/api/messages/unread/${app.applicationId}`);
+                        unreadData[app.applicationId] = unreadRes.data.unreadFromFaculty;
+                    } catch (err) {
+                        console.error(`Failed to get unread count for application ${app.applicationId}`, err);
+                    }
+                }
+                setUnreadCounts(unreadData);
+
             } catch (error) {
                 console.error("Failed to fetch applications:", error);
             } finally {
@@ -45,6 +58,10 @@ const StudentApplications = () => {
         }
     };
 
+    const handleMessages = (appId) => {
+        navigate(`/student/messages/${appId}`);
+    };
+
     if (loading) return <p style={{ padding: '2rem' }}>Loading your applications...</p>;
 
     return (
@@ -62,6 +79,7 @@ const StudentApplications = () => {
                         <th>Course</th>
                         <th>Status</th>
                         <th>Submitted</th>
+                        <th>Messages</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -76,18 +94,42 @@ const StudentApplications = () => {
                             <td>{app.status}</td>
                             <td>{new Date(app.submissionDate).toLocaleString()}</td>
                             <td>
+                                <button
+                                    onClick={() => handleMessages(app.applicationId)}
+                                    style={{
+                                        backgroundColor: '#77dd77',
+                                        color: 'white'
+                                    }}
+                                >
+                                    Messages
+                                </button>
+                                {unreadCounts[app.applicationId] > 0 && (
+                                    <span style={{
+                                        backgroundColor: '#f8d7da',
+                                        color: '#721c24',
+                                        padding: '6px 12px',
+                                        borderRadius: '5px',
+                                        fontSize: '14px'
+                                    }}>
+                                        {unreadCounts[app.applicationId]} unread message(s)!
+                                    </span>
+                                )}
+                            </td>
+                            <td>
                                 {app.status === 'Submitted' ? (
                                     <>
-                                        <button onClick={() => handleEdit(app.applicationId)}>Edit</button>
+                                        <button onClick={() => handleEdit(app.applicationId)}>
+                                            Edit
+                                        </button>
                                         <button
                                             onClick={() => handleDelete(app.applicationId)}
-                                            style={{ marginLeft: '0.5rem', backgroundColor: '#f44336', color: 'white' }}
+                                            style={{ backgroundColor: '#e74c3c' }}
                                         >
                                             Delete
                                         </button>
                                     </>
                                 ) : (
-                                    <span style={{ color: 'gray' }}>Locked</span>
+                                    <span style={{ color: '#000000' }}>Locked</span>
                                 )}
                             </td>
                         </tr>

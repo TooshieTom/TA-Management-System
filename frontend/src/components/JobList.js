@@ -26,8 +26,12 @@ const JobList = () => {
                 {employees.map((employee) => (
                     <li key={employee.id}>
                         {employee.name} - ${employee.salary}
-                        <button onClick={() =>
-                            handleDelete(employee.id)}>Delete</button>
+                        <button
+                            onClick={() => handleDelete(employee.id)}
+                            style={{ backgroundColor: '#e74c3c' }}
+                        >
+                            Delete
+                        </button>
                     </li>
                 ))}
             </ul>

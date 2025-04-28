@@ -19,6 +19,10 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm start
   db:
     image: mysql:8.0
     environment:

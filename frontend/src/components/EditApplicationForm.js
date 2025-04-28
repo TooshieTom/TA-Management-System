@@ -52,8 +52,8 @@ const EditApplicationForm = () => {
     if (!application) return <p>Loading application...</p>;
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <h2>Edit Application #{appId}</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem', width: '100%', maxWidth: '500px', margin: '0 auto', fontSize: '16px'}}>
+            <h2 style={{ fontSize: '36px', fontWeight: 'bold'}}>Edit Application #{appId}</h2>
             {application.jobPosting?.course?.courseNumber && (
                 <p>
                     <strong>Course:</strong> {application.jobPosting.course.courseNumber}
@@ -104,14 +104,14 @@ const EditApplicationForm = () => {
                 /><br /><br />
 
                 <label>Replace Resume (PDF/DOCX):</label><br />
-                <input
+                <input style={{ width: '100%', borderRadius: '5px', padding: '0.5rem'}}
                     type="file"
                     accept=".pdf,.doc,.docx"
                     onChange={(e) => setResumeFile(e.target.files[0])}
                 /><br /><br />
 
-                <button type="submit">Update Application</button>
-                <button type="button" onClick={() => navigate('/student/applications')} style={{ marginLeft: '1rem' }}>
+                <button type="submit" style={{ borderRadius: '100px'}}>Update Application</button>
+                <button type="button" onClick={() => navigate('/student/applications')} style={{ marginLeft: '1rem', borderRadius: '100px', backgroundColor: '#e74c3c' }}>
                     Cancel
                 </button>
             </form>

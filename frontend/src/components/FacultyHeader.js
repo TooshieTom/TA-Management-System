@@ -20,7 +20,7 @@ const FacultyHeader = () => {
             </div>
             <button
                 onClick={handleLogout}
-                style={{ backgroundColor: '#e74c3c', color: 'white' }}
+                style={{ backgroundColor: '#e74c3c' }}
             >
                 Logout
             </button>

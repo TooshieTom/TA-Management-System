@@ -7,6 +7,7 @@ import FacultyHeader from './FacultyHeader';
 const FacultyViewApplications = () => {
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [unreadCounts, setUnreadCounts] = useState({});
     const navigate = useNavigate();
 
     const facultyEmail = localStorage.getItem("userEmail");
@@ -16,6 +17,18 @@ const FacultyViewApplications = () => {
             try {
                 const res = await axios.get(`http://localhost:8080/api/applications/faculty/${facultyEmail}`);
                 setApplications(res.data);
+
+                const unreadData = {};
+                for (const app of res.data) {
+                    try {
+                        const unreadRes = await axios.get(`http://localhost:8080/api/messages/unread/${app.applicationId}`);
+                        unreadData[app.applicationId] = unreadRes.data.unreadFromStudents;
+                    } catch (err) {
+                        console.error(`Failed to get unread count for application ${app.applicationId}`, err);
+                    }
+                }
+                setUnreadCounts(unreadData);
+
             } catch (err) {
                 console.error("Error fetching applications:", err);
                 alert("Failed to fetch applications.");
@@ -44,10 +57,23 @@ const FacultyViewApplications = () => {
 
     if (loading) return <p style={{ padding: '2rem' }}>Loading applications...</p>;
 
+    const getStatusStyle = (status) => {
+        switch(status) {
+            case 'Accepted':
+                return { backgroundColor: '#77dd77', color: '#155724' };
+            case 'Declined':
+                return { backgroundColor: '#e74c3c', color: '#721c24' };
+            case 'In Review':
+                return { backgroundColor: '#fff9c4', color: '#856404' };
+            default:
+                return { backgroundColor: '#e2e3e5', color: '#383d41' };
+        }
+    };
+
     return (
         <div style={{ padding: '2rem' }}>
             <FacultyHeader />
-            <h2>All Submitted Applications</h2>
+            <h2 style={{ fontSize: '36px', fontWeight: 'bold'}}>All Submitted Applications</h2>
 
             {applications.length === 0 ? (
                 <p>No applications found.</p>
@@ -60,8 +86,8 @@ const FacultyViewApplications = () => {
                         <th>Email</th>
                         <th>Course</th>
                         <th>Status</th>
+                        <th>Messages</th>
                         <th>Submitted</th>
-                        <th>View</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -79,6 +105,18 @@ const FacultyViewApplications = () => {
                                 <select
                                     value={app.status}
                                     onChange={(e) => handleStatusChange(app.applicationId, e.target.value)}
+                                    style={{
+                                        ...getStatusStyle(app.status),
+                                        padding: '6px 12px',
+                                        borderRadius: '5px',
+                                        fontSize: '14px',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        width: '100%',
+                                        textAlign: 'center',
+                                        outline: 'none',
+
+                                    }}
                                 >
                                     <option value="Submitted">Submitted</option>
                                     <option value="In Review">In Review</option>
@@ -86,12 +124,24 @@ const FacultyViewApplications = () => {
                                     <option value="Declined">Declined</option>
                                 </select>
                             </td>
-                            <td>{new Date(app.submissionDate).toLocaleString()}</td>
                             <td>
                                 <button onClick={() => navigate(`/faculty/applications/${app.applicationId}`)}>
                                     View
                                 </button>
+
+                                {unreadCounts[app.applicationId] > 0 && (
+                                    <span style={{
+                                        backgroundColor: '#f8d7da',
+                                        color: '#721c24',
+                                        padding: '6px 12px',
+                                        borderRadius: '5px',
+                                        fontSize: '14px'
+                                    }}>
+                                        {unreadCounts[app.applicationId]} unread message(s)!
+                                    </span>
+                                )}
                             </td>
+                            <td>{new Date(app.submissionDate).toLocaleString()}</td>
                         </tr>
                     ))}
                     </tbody>

@@ -97,14 +97,14 @@ const FacultyPostJob = () => {
     };
 
     return (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem', width: '100%', maxWidth: '500px', margin: '0 auto', fontSize: '16px'}}>
             <FacultyHeader />
 
-            <h1>SMU TA Module</h1>
+            <h1 style={{ fontSize: '36px', fontWeight: 'bold' }}>SMU TA Module</h1>
 
-            {/* Add Course Section */}
             <div>
-                <h2>Add course to system</h2>
+                {/* Add Course Section */}
+                <h2 style={{ fontSize: '24px'}}>Add course to system</h2>
                 <form onSubmit={handleAddCourseSubmit}>
                     <div>
                         <label>Course Number:</label><br />
@@ -114,7 +114,7 @@ const FacultyPostJob = () => {
                             onChange={(e) => setCourseNumberAdd(e.target.value)}
                             required
                         />
-                    </div>
+                    </div><br/>
                     <div>
                         <label>Course Name:</label><br />
                         <input
@@ -123,7 +123,7 @@ const FacultyPostJob = () => {
                             onChange={(e) => setCourseNameAdd(e.target.value)}
                             required
                         />
-                    </div>
+                    </div><br/>
                     <div>
                         <label>Course Description:</label><br />
                         <textarea
@@ -133,15 +133,14 @@ const FacultyPostJob = () => {
                         />
                     </div>
                     <br />
-                    <button type="submit">Submit Course</button>
+                    <button type="submit" style={{ width: '40%', borderRadius: '100px', padding: '1rem' }}>Submit Course</button>
                 </form>
             </div>
 
-            <hr />
-
+            <hr style={{ margin: '2rem 0' }} />
             {/* Post TA Job Section */}
             <div>
-                <h2>Post TA Job</h2>
+                <h2 style={{ fontSize: '24px'}}>Post TA Job</h2>
                 <form onSubmit={handleJobSubmit}>
                     <div>
                         <label>Faculty Name:</label><br />
@@ -151,7 +150,7 @@ const FacultyPostJob = () => {
                             onChange={(e) => setFacultyName(e.target.value)}
                             required
                         />
-                    </div>
+                    </div><br/>
                     <div>
                         <label>Faculty Email:</label><br />
                         <input
@@ -160,7 +159,7 @@ const FacultyPostJob = () => {
                             onChange={(e) => setFacultyEmail(e.target.value)}
                             required
                         />
-                    </div>
+                    </div><br/>
                     <div>
                         <label>Course Number:</label><br />
                         <input
@@ -169,16 +168,16 @@ const FacultyPostJob = () => {
                             onChange={(e) => setCourseNumber(e.target.value)}
                             required
                         />
-                    </div>
+                    </div><br/>
                     <div>
                         <label>Required Courses (comma-separated):</label><br />
                         <input
                             type="text"
                             value={requiredCourses}
                             onChange={(e) => setRequiredCourses(e.target.value)}
-                            placeholder="e.g. CS3341, MATH1338"
+                            placeholder="e.g. CS3341"
                         />
-                    </div>
+                    </div><br/>
                     <div>
                         <label>Skills (comma-separated or free text):</label><br />
                         <input
@@ -186,11 +185,13 @@ const FacultyPostJob = () => {
                             value={skills}
                             onChange={(e) => setSkills(e.target.value)}
                         />
-                    </div>
-                    <div>
+                    </div><br/>
+                    <div style={{ display: 'flex', flexDirection: 'column'}}>
                         <label>Standing (select all that apply):</label><br />
                         {standingsOptions.map(opt => (
-                            <div key={opt}>
+                            <div key={opt}
+                                 style={{ marginRight: '24rem' }}
+                            >
                                 <input
                                     type="checkbox"
                                     value={opt}
@@ -200,7 +201,7 @@ const FacultyPostJob = () => {
                                 {opt}
                             </div>
                         ))}
-                    </div>
+                    </div><br/>
                     <div>
                         <label>Job Details:</label><br />
                         <textarea
@@ -210,7 +211,7 @@ const FacultyPostJob = () => {
                         />
                     </div>
                     <br />
-                    <button type="submit">Submit Job Posting</button>
+                    <button type="submit" style={{ width: '40%', borderRadius: '100px', padding: '1rem' }}>Submit Job Posting</button>
                 </form>
             </div>
         </div>

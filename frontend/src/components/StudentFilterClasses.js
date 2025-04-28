@@ -56,62 +56,73 @@ const StudentFilterClasses = () => {
     };
 
     return (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column',  padding: '2rem', width: '100%', maxWidth: '500px', margin: '0 auto', fontSize: '16px'}}>
             <StudentHeader />
-            <h2>Filter TA Job Postings</h2>
-            <div>
-                <label>Course Number:</label>
-                <input
-                    type="text"
-                    value={courseNumber}
-                    onChange={(e) => setCourseNumber(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Course Name:</label>
-                <input
-                    type="text"
-                    value={courseName}
-                    onChange={(e) => setCourseName(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Skill:</label>
-                <input
-                    type="text"
-                    value={skill}
-                    onChange={(e) => setSkill(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Instructor Name:</label>
-                <input
-                    type="text"
-                    value={instructorName}
-                    onChange={(e) => setInstructorName(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Standing (Freshman, Sophomore, Junior, Senior, Graduate):</label>
-                <input
-                    type="text"
-                    value={standing}
-                    onChange={(e) => setStanding(e.target.value)}
-                />
-            </div>
-            <button onClick={handleFilter}>Filter</button>
 
-            <div>
-                <h3>Available TA Job Postings:</h3>
-                <ul>
+            <h2 style={{ fontSize: '36px', fontWeight: 'bold'}}>Filter TA Job Postings</h2>
+
+            <br/>
+            <label>Course Number:</label>
+            <input
+                type="text"
+                value={courseNumber}
+                onChange={(e) => setCourseNumber(e.target.value)}
+            />
+
+            <br/>
+            <label>Course Name:</label>
+            <input
+                type="text"
+                value={courseName}
+                onChange={(e) => setCourseName(e.target.value)}
+            />
+
+            <br/>
+            <label>Skill:</label>
+            <input
+                type="text"
+                value={skill}
+                onChange={(e) => setSkill(e.target.value)}
+            />
+
+            <br/>
+            <label>Instructor Name:</label>
+            <input
+                type="text"
+                value={instructorName}
+                onChange={(e) => setInstructorName(e.target.value)}
+            />
+
+            <br/>
+            <label>Standing (Freshman, Sophomore, Junior, Senior, Graduate):</label>
+            <input
+                type="text"
+                value={standing}
+                onChange={(e) => setStanding(e.target.value)}
+            />
+
+            <br/>
+            <button onClick={handleFilter}
+                    style={{ fontSize: '16x', width: '40%', borderRadius: '100px', padding: '2rem'}}
+            >Filter</button>
+
+            <hr  style={{ margin: '2rem 0' }} />
+
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+                <h2 style={{ fontSize: '36px', fontWeight: 'bold' }}>Available TA Job Postings</h2>
+                <ul style={{ fontSize: '16px'}}>
                     {jobPostings.map(posting => (
-                        <li key={posting.jobid}>
+                        <li key={posting.jobid}
+                            style={{ marginTop: '16px'}}
+                        >
                             <strong>{posting.course.courseNumber}</strong> - {posting.course.courseName}: {posting.jobDetails}<br />
                             Faculty: {posting.facultyName} (Email: {posting.facultyEmail})<br />
                             {posting.alreadyApplied ? (
                                 <span style={{ color: 'gray' }}>Already Applied</span>
                             ) : (
-                                <button onClick={() => navigate(`/apply/${posting.jobid}`)}>Apply</button>
+                                <button onClick={() => navigate(`/apply/${posting.jobid}`)}
+                                style={{ width: '100px', borderRadius: '100px', marginTop: '4px'}}
+                                >Apply</button>
                             )}
                         </li>
                     ))}

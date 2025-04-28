@@ -60,55 +60,79 @@ const AuthPage = () => {
     };
 
     return (
-        <div style={{ padding: '2rem', maxWidth: '400px', margin: '0 auto' }}>
-            <h2>{isRegister ? 'Create Account' : 'Login'}</h2>
+        <div style={{
+            padding: '5rem', display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '500px', margin: '0 auto'
+        }}>
+            <div style={{
+                padding: '4rem',
+                borderRadius: '8px',
+                boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+                backgroundColor: 'white',
+                width: '100%',
 
-            <form onSubmit={handleSubmit}>
-                <label>Email:</label><br />
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                /><br /><br />
+            }}>
+                <h2 style={{ textAlign: 'center', marginBottom: '4rem', fontSize: '4.2rem', fontWeight: 'bold',
+                }}
+                >
+                    {isRegister ? 'Create Account' : 'Login'}</h2>
 
-                <label>Password:</label><br />
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                /><br /><br />
+                <form onSubmit={handleSubmit}
+                      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '2rem'}}
+                >
+                    <label>Email:</label><br />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    /><br />
 
-                {isRegister && (
-                    <>
-                        <label>Select Role:</label><br />
-                        <select value={role} onChange={(e) => setRole(e.target.value)} required>
-                            <option value="student">Student</option>
-                            <option value="faculty">Faculty</option>
-                        </select><br /><br />
+                    <label>Password:</label><br />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    /><br />
 
-                        <label>{role === 'student' ? 'Student ID' : 'Faculty ID'}:</label><br />
-                        <input
-                            type="text"
-                            value={userId}
-                            onChange={(e) => setUserId(e.target.value)}
-                            required
-                        /><br /><br />
-                    </>
-                )}
+                    {isRegister && (
+                        <>
+                            <label>Select Role:</label><br />
+                            <select value={role} onChange={(e) => setRole(e.target.value)} required
+                                    style={{ fontSize: '2rem', width: '40%', padding: '0.5rem', borderRadius: '24px' }}
 
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                            >
+                                <option value="student">Student</option>
+                                <option value="faculty">Faculty</option>
+                            </select><br/>
 
-                <button type="submit">
-                    {isRegister ? 'Register' : 'Login'}
-                </button>
-            </form>
+                            <label>{role === 'student' ? 'Student ID' : 'Faculty ID'}:</label><br />
+                            <input
+                                type="text"
+                                value={userId}
+                                onChange={(e) => setUserId(e.target.value)}
+                                required
+                            /><br/>
+                        </>
+                    )}
 
-            <br />
-            <button onClick={() => setIsRegister(!isRegister)}>
-                {isRegister ? 'Already have an account? Login' : 'New user? Register here'}
-            </button>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+
+                    <br/>
+                    <button type="submit" style={{ fontSize: '1.5rem', width: '40%', borderRadius: '100px', padding: '2rem', marginBottom: '2rem' }}
+
+                    >
+                        {isRegister ? 'Create Account' : 'Login'}
+
+                    </button>
+
+                    <button onClick={() => setIsRegister(!isRegister)}
+                            style={{ fontSize: '1.5rem', width: '40%', borderRadius: '100px', padding: '2rem', marginBottom: '2rem' }}
+                    >
+                        {isRegister ? 'Login Page' : 'Register'}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

@@ -61,8 +61,8 @@ const ApplyForm = () => {
     if (!job) return <p>Loading job details...</p>;
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <h2>
+        <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem', width: '100%', maxWidth: '500px', margin: '0 auto', fontSize: '16px'}}>
+            <h2 style={{ fontSize: '36px'}}>
                 Apply for {job.course.courseNumber}
                 {job.course.courseName && ` - ${job.course.courseName}`}
             </h2>
@@ -70,7 +70,7 @@ const ApplyForm = () => {
             <p><strong>Details:</strong> {job.jobDetails}</p>
 
             <form onSubmit={handleSubmit}>
-                <label>Student Name:</label><br />
+                <label>Student Name:</label><br/>
                 <input
                     type="text"
                     value={studentName}
