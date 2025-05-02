@@ -36,7 +36,7 @@ const FacultyApplicationDetails = () => {
 
     return (
         <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'stretch', maxWidth: '500px', margin: '0 auto' }}
-            >
+        >
             <h2 style={{ fontSize: '36px', fontWeight: 'bold'}}>Application Details</h2>
             <button onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back to List</button>
 

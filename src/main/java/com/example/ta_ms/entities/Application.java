@@ -3,6 +3,7 @@ package com.example.ta_ms.entities;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "applications")
@@ -39,6 +40,10 @@ public class Application {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date submissionDate = new Date();
+
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages;
+
 
     public Application() {}
 
@@ -77,4 +82,7 @@ public class Application {
 
     public Date getSubmissionDate() { return submissionDate; }
     public void setSubmissionDate(Date submissionDate) { this.submissionDate = submissionDate; }
+
+    public List<Message> getMessages() { return messages; }
+    public void setMessages(List<Message> messages) { this.messages = messages; }
 }

@@ -23,4 +23,3 @@ public class FacultyApplicationController {
         return ResponseEntity.ok(applications);
     }
 }
-

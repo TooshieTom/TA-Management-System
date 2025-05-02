@@ -61,7 +61,7 @@ const AuthPage = () => {
 
     return (
         <div style={{
-            padding: '5rem', display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '500px', margin: '0 auto'
+            padding: '5rem', display: 'flex', flexDirection: 'row', width: '100%', maxWidth: '600px', margin: '0 auto'
         }}>
             <div style={{
                 padding: '4rem',

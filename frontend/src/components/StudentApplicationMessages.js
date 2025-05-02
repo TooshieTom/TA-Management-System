@@ -1,11 +1,10 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import StudentHeader from './StudentHeader';
 import ApplicationMessages from './ApplicationMessages';
 
 const StudentApplicationMessages = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
 
     return (
         <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'stretch', maxWidth: '500px', margin: '0 auto' }}>
