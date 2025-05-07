@@ -2,6 +2,19 @@
 
 This document provides an overview of Team 5’s progress on the TA Module project in Sprint 3. The focus of Sprint 3 was cleaning up loose ends, like refining the user interface, introducing a communication channel between students and instructors, and adding the ability for instructors to provide feedback.
 
+## Screenshots of Functionality:
+**Messaging**
+- Successful Unread Message for Faculty.png
+- Successful Unread Message for Student.png
+- Successful Messaging for Faculty.png
+- Successful Messaging for Student.png
+- Successful Conversation between Student and Faculty.png
+
+**UI**
+- New Student Application Styling.png
+- New Login Styling.png
+- New Faculty Application Styling.png
+
 ## Faculty User Story
 
 ### Functionality
