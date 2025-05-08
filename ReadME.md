@@ -79,7 +79,60 @@ All communication and feedback endpoints enforce role-based access (students onl
     - Sends new messages with `POST /api/messages`.  
 
 - **Styling & UX Enhancements**  
-  - Tailwind-based theming for consistent spacing, typography, and color palette.   
+  - Tailwind-based theming for consistent spacing, typography, and color palette.
+ 
+## Testing
+### Testing Overview
+
+This project uses JUnit 5 and Spring's testing support to verify the behavior of our application's web controllers:
+
+* **Controller Tests**
+   * Slice tests for each web controller (`@WebMvcTest`)
+   * Mocked repositories/services via `@MockBean`
+   * Focus on controller request handling, status codes, JSON payloads
+
+> **Why focus on controller testing?** Controller tests validate the entire request/response flow and integration points of the application. By thoroughly testing controllers, it indirectly validates the functionality of the repository classes and entity models, as controllers utilize these components to fulfill  operations. This provides excellent test coverage while keeping test complexity manageable.
+
+### Project Structure
+Test classes are located at TAModule/test/java/com/example/ta_ms
+
+Each controller test class mirrors the production package and controller class under test:
+* `CourseControllerTest.java` → tests `CourseController`
+* `StudentControllerTest.java` → tests `StudentController`
+
+### Controller Test Annotations
+
+#### Controller Slice Tests
+* **Annotation:** `@WebMvcTest(ControllerClass.class)`
+* **Spring Context:** only the web layer; controllers
+* **Mocks:** `@MockBean` for repositories or services injected into the controller
+* **Tools:**
+   * `MockMvc` to perform HTTP requests
+   * `jsonPath(…)` to assert on JSON responses
+   * Standard HTTP status / header assertions
+
+```java
+@WebMvcTest(CourseController.class)
+class CourseControllerTest {
+    @Autowired
+    MockMvc mvc;
+    
+    @MockBean
+    CourseRepository repo;
+    // ...
+}
+```
+
+### Running Tests
+
+* **Gradle**
+
+```bash
+./gradlew clean test
+```
+
+* **Through IntelliJ**
+   * IntelliJ: right-click on individual test classes → **Run**
 
 ## Conclusion
 
